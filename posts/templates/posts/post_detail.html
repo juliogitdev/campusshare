@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.titulo }} - CampusShare</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+
+    <a href="{% url 'feed' %}">⬅ Voltar para o Feed</a>
+    <hr>
+
+    <div style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h1>Autor: {{ post.autor }}</h1>
+        <p style="font-size: 1.2em;">{{ post.texto_conteudo }}</p>
+        
+        <div style="margin-top: 20px;">
+            {% include 'posts/partials/botao_curtida.html' %}
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; background: #f9f9f9; padding: 20px;">
+
+        <h3>Deixe seu comentário:</h3>
+        
+        <form method="post" action="{% url 'adicionar_comentario' post.pk %}">
+            {% csrf_token %} <div style="margin-bottom: 10px;">
+                {{ form.texto_comentario }} 
+            </div>
+            
+            <button type="submit" style="background: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
+                Enviar
+            </button>
+        </form>
+
+        <hr style="margin: 20px 0;">
+
+        <h3>Comentários ({{ comentarios.count }})</h3>
+        
+        {% for comentario in comentarios %}
+            {% for comentario in comentarios %}
+            <div style="border-bottom: 1px solid #ccc; padding: 10px 0;">
+                <div style="display: flex; justify-content: space-between;">
+                    
+                    <div>
+                        <strong>{{ comentario.autor }}</strong> disse:
+                        <p style="margin: 5px 0;">{{ comentario.texto_comentario }}</p>
+                    </div>
+
+                    {% if request.user == comentario.autor or request.user == post.autor %}
+                        <a href="{% url 'deletar_comentario' comentario.pk %}" 
+                           style="color: red; text-decoration: none; font-size: 0.8em; border: 1px solid red; padding: 2px 5px; border-radius: 4px; height: fit-content;"
+                           onclick="return confirm('Tem certeza que deseja apagar?')">
+                           Apagar
+                        </a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        {% empty %}
+            <p>Seja o primeiro a comentar!</p>
+        {% endfor %}
+        {% empty %}
+            <p>Seja o primeiro a comentar!</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

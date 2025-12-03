@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed - CampusShare</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+</head>
+<body style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+
+    <h1>Feed CampusShare</h1>
+    <a href="#">Meu Perfil</a> | <a href="/admin">Admin</a>
+    <hr>
+    
+    <div style="background: #f0f0f0; padding: 15px; margin-bottom: 20px;">
+        <p>O que você está pensando?</p>
+    </div>
+
+    <div id="posts-container">
+        {% include 'posts/partials/lista_posts.html' %}
+    </div>
+
+</body>
+</html>

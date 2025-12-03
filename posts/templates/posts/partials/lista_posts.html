@@ -1,0 +1,29 @@
+{% for post in page_obj %}
+    <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: black;">
+        <div class="post-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
+        
+            <h3>{{ post.autor }}</h3>
+        
+                <p>{{ post.texto_conteudo }}</p>
+            
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <small style="color: grey;">{{ post.data_publicacao|date:"d/m/Y H:i" }}</small>
+                
+                    
+                </div>
+            
+        </div>
+    </a>
+    {% include 'posts/partials/botao_curtida.html' %}
+    {% if forloop.last and page_obj.has_next %}
+        <div hx-get="{% url 'feed' %}?page={{ page_obj.next_page_number }}" 
+             hx-trigger="click" 
+             hx-target="this" 
+             hx-swap="outerHTML">
+             
+            <button style="width: 100%; padding: 10px; cursor: pointer; background: #eee; border: none;">
+                Carregar mais postagens...
+            </button>
+        </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,12 @@
+<button hx-post="{% url 'curtir_post' post.pk %}" 
+        hx-target="this" 
+        hx-swap="outerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        style="cursor: pointer; background: none; border: 1px solid #ccc; padding: 2px 10px; border-radius: 5px; margin-bottom: 30px;">
+    
+    {% if user in post.likes.all %}
+        ❤️ {{ post.total_likes }} (Descurtir)
+    {% else %}
+        🤍 {{ post.total_likes }} (Curtir)
+    {% endif %}
+</button>
