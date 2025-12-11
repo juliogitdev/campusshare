@@ -38,7 +38,6 @@
         <h3>Comentários ({{ comentarios.count }})</h3>
         
         {% for comentario in comentarios %}
-            {% for comentario in comentarios %}
             <div style="border-bottom: 1px solid #ccc; padding: 10px 0;">
                 <div style="display: flex; justify-content: space-between;">
                     
@@ -57,9 +56,6 @@
                     
                 </div>
             </div>
-        {% empty %}
-            <p>Seja o primeiro a comentar!</p>
-        {% endfor %}
         {% empty %}
             <p>Seja o primeiro a comentar!</p>
         {% endfor %}

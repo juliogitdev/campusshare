@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - CampusShare</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; 
+        }
+
+        .signup-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: #1c1e21;
+        }
+        .header p {
+            color: #606770;
+            margin-top: 5px;
+        }
+
+        .django-form p {
+            margin-bottom: 15px;
+        }
+        
+        .django-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #1c1e21;
+        }
+
+        .django-form input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .django-form input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+            outline: none;
+        }
+
+        .helptext {
+            display: block;
+            font-size: 0.8rem;
+            color: #606770;
+            margin-top: 4px;
+        }
+        
+        ul {
+            padding-left: 20px;
+            margin: 5px 0 15px 0;
+            font-size: 0.85rem;
+            color: #606770;
+        }
+
+        .btn-register {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-register:hover {
+            background-color: #36a420;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            display: block;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        .errorlist {
+            color: #dc3545;
+            font-weight: bold;
+            list-style: none; 
+            padding: 0;
+            margin: 5px 0;
+        }
+        .errorlist li {
+            background-color: #ffe6e6;
+            border: 1px solid #dc3545;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-card">
+        <div class="header">
+            <h2>Criar nova conta</h2>
+            <p>É rápido e fácil.</p>
+        </div>
+
+        <form method="post" class="django-form">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-register">Cadastre-se</button>
+        </form>
+
+        <a href="{% url 'login' %}" class="footer-link">Já tem uma conta? Entrar</a>
+    </div>
+
+</body>
+</html>

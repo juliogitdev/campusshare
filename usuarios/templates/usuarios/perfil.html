@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de {{ dono_perfil.username }}</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; }
+        
+        .profile-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #f0f2f5; }
+        .btn-voltar { text-decoration: none; color: #1877f2; font-weight: bold; float: left;}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="{% url 'feed' %}" class="btn-voltar">⬅ Voltar para o Feed</a>
+        <br><br>
+
+        <div class="profile-header">
+            <img src="https://ui-avatars.com/api/?name={{ dono_perfil.first_name }}+{{ dono_perfil.last_name }}&background=random&size=128" class="profile-img">
+
+            <h1>{{ dono_perfil.first_name }} {{ dono_perfil.last_name }}</h1>
+            <p style="color: gray;">@{{ dono_perfil.username }}</p>
+            <p style="color: gray; font-size: 0.9em;">{{ dono_perfil.email }}</p>
+            
+            {% if request.user == dono_perfil %}
+                <a href="{% url 'editar_perfil' %}" style="display: inline-block; margin-top: 10px; background: #eee; color: #333; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9em;">
+                    ✏️ Editar Perfil
+                </a>
+            {% endif %}
+            <hr>
+            
+            <p><strong>Curso:</strong> {{ dono_perfil.perfil.curso|default:"Não informado" }}</p>
+            <p><strong>Instituição:</strong> {{ dono_perfil.perfil.instituicao|default:"Não informado" }}</p>
+            
+            {% if dono_perfil.perfil.biografia %}
+                <p><em>"{{ dono_perfil.perfil.biografia }}"</em></p>
+            {% endif %}
+        </div>
+
+        <h3 style="color: #555;">Publicações de {{ dono_perfil.username }}:</h3>
+        
+        {% for post in posts %}
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #ddd;">
+                <h3>{{ post.autor }}</h3>
+                <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: black;">
+                    <p>{{ post.texto_conteudo }}</p>
+                </a>
+                <small style="color: gray;">{{ post.data_publicacao|date:"d/m/Y H:i" }}</small>
+            </div>
+        {% empty %}
+            <p>Este usuário ainda não fez nenhuma publicação.</p>
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>

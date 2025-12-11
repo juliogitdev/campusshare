@@ -1,29 +1,80 @@
+<style>
+    .post-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 15px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1)
+    }
+    
+    .post-header {
+        display: flex; 
+        align-items: center; 
+        margin-bottom: 10px;
+    }
+
+    .author-link {
+        text-decoration: none; 
+        color: #1877f2; 
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    .author-link:hover { text-decoration: underline; }
+
+    .post-content {
+        display: block;
+        text-decoration: none; 
+        color: #1c1e21;
+        font-size: 1.1em;
+        margin: 10px 0;
+        line-height: 1.5;
+    }
+    .post-content:hover { color: #555; }
+</style>
+
 {% for post in page_obj %}
-    <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: black;">
-        <div class="post-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
-        
-            <h3>{{ post.autor }}</h3>
-        
-                <p>{{ post.texto_conteudo }}</p>
+    <div class="post-card">
+
+        <div class="post-header">
+            <img src="https://ui-avatars.com/api/?name={{ post.autor.first_name }}+{{ post.autor.last_name }}&background=random&size=40" 
+                 style="border-radius: 50%; margin-right: 10px;">
             
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <small style="color: grey;">{{ post.data_publicacao|date:"d/m/Y H:i" }}</small>
-                
-                    
-                </div>
-            
+            <div>
+                <a href="{% url 'ver_perfil' post.autor.username %}" class="author-link">
+                    {{ post.autor }}
+                </a>
+                <br>
+                <small style="color: grey;">{{ post.data_publicacao|date:"d/m/Y H:i" }}</small>
+            </div>
         </div>
-    </a>
-    {% include 'posts/partials/botao_curtida.html' %}
+
+        <a href="{% url 'post_detail' post.pk %}" class="post-content">
+            {{ post.texto_conteudo|linebreaksbr }}
+        </a>
+
+        <div style="border-top: 1px solid #eee; padding-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+            
+            {% include 'posts/partials/botao_curtida.html' %}
+            
+            <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: grey;">
+                💬 {{ post.comentarios.count }} Comentários
+            </a>
+        </div>
+
+    </div>
+
     {% if forloop.last and page_obj.has_next %}
         <div hx-get="{% url 'feed' %}?page={{ page_obj.next_page_number }}" 
              hx-trigger="click" 
              hx-target="this" 
-             hx-swap="outerHTML">
+             hx-swap="outerHTML"
+             style="text-align: center; margin-bottom: 20px;">
              
-            <button style="width: 100%; padding: 10px; cursor: pointer; background: #eee; border: none;">
-                Carregar mais postagens...
+            <button style="background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 20px; cursor: pointer; color: #1877f2; font-weight: bold;">
+                ⬇ Carregar mais postagens
             </button>
         </div>
     {% endif %}
+
 {% endfor %}
